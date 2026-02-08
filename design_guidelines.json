@@ -1,0 +1,176 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "NoorVision",
+      "essence": "Islamic Dream Interpretation",
+      "emotional_tone": ["Reverent", "Mystical", "Scholarly", "Calming"],
+      "visual_archetype": "The Midnight Scholar"
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Cinzel Decorative, Playfair Display, serif",
+        "body": "Urbanist, Outfit, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "scale": {
+        "h1": "text-5xl md:text-7xl font-bold tracking-tight leading-tight",
+        "h2": "text-4xl md:text-5xl font-semibold tracking-tight",
+        "h3": "text-2xl md:text-3xl font-medium text-gold-400",
+        "body_lg": "text-lg leading-relaxed text-slate-300",
+        "body_base": "text-base leading-relaxed text-slate-400",
+        "caption": "text-sm text-slate-500 uppercase tracking-widest"
+      },
+      "imports": [
+        "@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');"
+      ]
+    },
+    "colors": {
+      "palette": {
+        "background": {
+          "default": "#020617",
+          "paper": "#0F172A",
+          "subtle": "#1E293B"
+        },
+        "primary": {
+          "DEFAULT": "#D4AF37",
+          "hover": "#B5952F",
+          "foreground": "#020617",
+          "glow": "0 0 20px rgba(212, 175, 55, 0.3)"
+        },
+        "secondary": {
+          "DEFAULT": "#1E293B",
+          "foreground": "#E2E8F0"
+        },
+        "accent": {
+          "ruya": "#10B981",
+          "hulm": "#EF4444",
+          "ambiguous": "#64748B",
+          "gold": "#F59E0B"
+        },
+        "text": {
+          "primary": "#F8FAFC",
+          "secondary": "#94A3B8",
+          "muted": "#475569"
+        },
+        "border": {
+          "default": "rgba(255, 255, 255, 0.1)",
+          "active": "rgba(212, 175, 55, 0.3)"
+        }
+      },
+      "gradients": {
+        "mystic_gold": "linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%)",
+        "midnight_depth": "radial-gradient(circle at center, #1E293B 0%, #020617 100%)",
+        "fade_bottom": "linear-gradient(to bottom, transparent, #020617)"
+      }
+    },
+    "visual_enhancers": {
+      "radius": {
+        "default": "0.75rem",
+        "card": "1rem",
+        "button": "9999px"
+      },
+      "shadows": {
+        "card": "0 10px 30px -10px rgba(0, 0, 0, 0.5)",
+        "glow": "0 0 15px rgba(212, 175, 55, 0.15)",
+        "inner_glow": "inset 0 0 20px rgba(255, 255, 255, 0.03)"
+      },
+      "effects": {
+        "glass": "backdrop-blur-xl bg-slate-900/60 border border-white/10",
+        "glass_card": "backdrop-blur-md bg-slate-900/40 border border-white/5 hover:border-gold-500/30 transition-colors duration-300",
+        "pattern_overlay": "opacity-5 mix-blend-overlay pointer-events-none"
+      }
+    },
+    "layout": {
+      "spacing": {
+        "container_padding": "p-6 md:p-12 lg:p-20",
+        "section_gap": "gap-12 md:gap-24",
+        "card_padding": "p-6 md:p-8"
+      },
+      "grid_systems": {
+        "dashboard": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+        "interpretation": "grid grid-cols-1 md:grid-cols-12 gap-8"
+      },
+      "max_width": "max-w-7xl mx-auto"
+    },
+    "component_strategies": {
+      "buttons": {
+        "primary": "bg-[#D4AF37] text-slate-950 font-semibold hover:bg-[#B5952F] hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 rounded-full px-8 py-6 text-lg",
+        "secondary": "bg-transparent border border-slate-700 text-slate-300 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 rounded-full px-6 py-4",
+        "ghost": "text-slate-400 hover:text-[#D4AF37] hover:bg-slate-800/50 rounded-lg px-4 py-2"
+      },
+      "cards": {
+        "dream_entry": "relative overflow-hidden rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-[#D4AF37]/30 transition-all duration-500 group",
+        "interpretation": "rounded-xl bg-slate-950/80 border border-[#D4AF37]/20 p-8 shadow-2xl backdrop-blur-sm"
+      },
+      "inputs": {
+        "default": "bg-slate-950/50 border-slate-800 focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] rounded-xl py-4 px-5 text-lg text-slate-200 placeholder:text-slate-600 transition-all"
+      },
+      "navigation": {
+        "wrapper": "fixed top-0 w-full z-50 transition-all duration-300",
+        "scrolled": "bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-4",
+        "transparent": "bg-transparent py-6"
+      }
+    },
+    "motion": {
+      "transitions": {
+        "default": "transition-all duration-300 ease-out",
+        "slow": "transition-all duration-700 ease-in-out"
+      },
+      "animations": {
+        "fade_in_up": "animate-in fade-in slide-in-from-bottom-8 duration-700",
+        "fade_in": "animate-in fade-in duration-500",
+        "pulse_glow": "animate-pulse"
+      }
+    },
+    "accessibility": {
+      "rules": [
+        "Text contrast must meet APCA standards (gold on black is tricky, use lighter gold #FDE68A for small text)",
+        "Focus rings must be visible (use gold ring-2)",
+        "Interactive elements must be at least 44x44px",
+        "Use aria-labels for icon-only buttons"
+      ]
+    }
+  },
+  "assets": {
+    "images": {
+      "background_pattern": {
+        "url": "https://images.unsplash.com/photo-1655579263938-f76495c680df?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Islamic Geometric Pattern Overlay",
+        "usage": "Use as a fixed background with opacity-5 or opacity-10 mixed with the dark background color."
+      },
+      "hero_atmosphere": {
+        "url": "https://images.unsplash.com/photo-1763642519994-e32a289a38e7?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Mystical Arched Hallway",
+        "usage": "Hero section background or 'Path to Guidance' visualization."
+      },
+      "reflective_mood": {
+        "url": "https://images.unsplash.com/photo-1612350625363-8bd0cc7e16a9?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "alt": "Candle and Old Book",
+        "usage": "Use for the 'Journal' or 'Scholarly Sources' section."
+      }
+    },
+    "icons": {
+      "library": "lucide-react",
+      "preferred_set": ["Moon", "BookOpen", "Star", "Scroll", "Sparkles", "ShieldCheck", "History", "Fingerprint"]
+    }
+  },
+  "instructions_to_main_agent": [
+    "1. THEME ENFORCEMENT: Force Dark Mode globally. In `index.css`, set default styles to dark theme values directly in `:root` if possible, or ensure the `.dark` class is always applied to `html`.",
+    "2. FONT SETUP: Import 'Cinzel Decorative' and 'Urbanist' from Google Fonts immediately in `index.css`.",
+    "3. PATTERN IMPLEMENTATION: Create a reusable `BackgroundPattern` component that layers the geometric image (from assets) over the solid dark background with `mix-blend-overlay` and low opacity.",
+    "4. DREAM INPUT: The dream input textarea should feel like a 'Journal'. Large, comfortable, serif font inside the input (yes, use serif for the user input text for a book-like feel).",
+    "5. DISCLAIMERS: Disclaimers are CRITICAL. Make them distinct but not annoying. Use a border-l-4 border-gold-500/50 style for them.",
+    "6. AI INTERPRETATION UI: When displaying results, categorize them visually using the 'Ru'ya' (Green tint), 'Hulm' (Red tint), and 'Ambiguous' (Grey/Gold tint) color coding.",
+    "7. EXPORT: Use named exports for components, default for pages.",
+    "8. SHADCN: Customize Shadcn components in `components/ui` to match the palette (remove white backgrounds, add dark slate/black backgrounds).",
+    "9. DATA-TESTID: Add data-testid to all interactive elements."
+  ],
+  "universal_guidelines": [
+    "Do not use generic centered layouts.",
+    "Use glass-morphism effects with backdrop filters.",
+    "Every interaction needs micro-animations.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "Never use transparent backgrounds without a blur or scrim.",
+    "All interactive and key informational elements MUST include data-testid attribute."
+  ]
+}
