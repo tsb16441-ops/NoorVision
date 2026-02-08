@@ -1,8 +1,15 @@
 {
     "version": 2,
-    "buildCommand": "cd frontend && yarn install && yarn build",
-    "outputDirectory": "frontend/build",
     "builds": [
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "build",
+                "installCommand": "yarn install",
+                "buildCommand": "yarn build"
+            }
+        },
         {
             "src": "backend/server.py",
             "use": "@vercel/python"
@@ -14,8 +21,11 @@
             "dest": "backend/server.py"
         },
         {
+            "handle": "filesystem"
+        },
+        {
             "src": "/(.*)",
-            "dest": "/$1"
+            "dest": "frontend/build/$1"
         }
     ]
 }
