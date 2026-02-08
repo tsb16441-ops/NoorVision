@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 import bcrypt
 from jose import jwt, JWTError
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+from openai import AsyncOpenAI
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -27,8 +27,9 @@ JWT_SECRET = os.environ.get('JWT_SECRET', 'noorvision-secret')
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 24
 
-# Emergent LLM Key
-EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
+# OpenAI API Key
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 # Create the main app
 app = FastAPI(title="NoorVision API", description="Islamic AI Dream Interpretation")
@@ -169,15 +170,8 @@ OUTPUT FORMAT (JSON):
 }"""
 
 async def interpret_dream_with_ai(dream_content: str, user_history: List[dict] = None) -> dict:
-    """Use GPT-5.2 via Emergent to interpret the dream"""
+    """Use OpenAI GPT to interpret the dream"""
     try:
-        chat = LlmChat(
-            api_key=EMERGENT_LLM_KEY,
-            session_id=f"dream-{uuid.uuid4()}",
-            system_message=DREAM_INTERPRETATION_SYSTEM_PROMPT
-        )
-        chat.with_model("openai", "gpt-5.2")
-        
         # Build context from user history if available
         pattern_context = ""
         if user_history and len(user_history) > 0:
@@ -197,24 +191,21 @@ async def interpret_dream_with_ai(dream_content: str, user_history: List[dict] =
             if recurring:
                 pattern_context = f"\n\nPATTERN CONTEXT: This user has recurring symbols in their dreams: {', '.join(recurring[:5])}. Previous dream categories: {categories_count}. Consider these patterns in your interpretation."
         
-        user_message = UserMessage(
-            text=f"Please interpret this dream and respond ONLY with valid JSON:\n\n{dream_content}{pattern_context}"
-        )
+        user_prompt = f"Please interpret this dream and respond ONLY with valid JSON:\n\n{dream_content}{pattern_context}"
         
-        response = await chat.send_message(user_message)
+        response = await openai_client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": DREAM_INTERPRETATION_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt}
+            ],
+            response_format={"type": "json_object"}
+        )
         
         # Parse JSON response
         import json
-        # Clean response - remove markdown code blocks if present
-        clean_response = response.strip()
-        if clean_response.startswith("```json"):
-            clean_response = clean_response[7:]
-        if clean_response.startswith("```"):
-            clean_response = clean_response[3:]
-        if clean_response.endswith("```"):
-            clean_response = clean_response[:-3]
-        
-        interpretation_data = json.loads(clean_response.strip())
+        content = response.choices[0].message.content
+        interpretation_data = json.loads(content)
         return interpretation_data
         
     except Exception as e:
