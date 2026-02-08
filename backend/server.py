@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 import bcrypt
 from jose import jwt, JWTError
-from openai import AsyncOpenAI
+import httpx
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -27,9 +27,8 @@ JWT_SECRET = os.environ.get('JWT_SECRET', 'noorvision-secret')
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 24
 
-# OpenAI API Key
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-openai_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+# Emergent LLM Key
+EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
 
 # Create the main app
 app = FastAPI(title="NoorVision API", description="Islamic AI Dream Interpretation")
@@ -170,7 +169,7 @@ OUTPUT FORMAT (JSON):
 }"""
 
 async def interpret_dream_with_ai(dream_content: str, user_history: List[dict] = None) -> dict:
-    """Use OpenAI GPT to interpret the dream"""
+    """Use Emergent API to interpret the dream"""
     try:
         # Build context from user history if available
         pattern_context = ""
@@ -193,18 +192,29 @@ async def interpret_dream_with_ai(dream_content: str, user_history: List[dict] =
         
         user_prompt = f"Please interpret this dream and respond ONLY with valid JSON:\n\n{dream_content}{pattern_context}"
         
-        response = await openai_client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": DREAM_INTERPRETATION_SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt}
-            ],
-            response_format={"type": "json_object"}
-        )
+        # Call Emergent API directly via HTTP
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.post(
+                "https://api.emergentintegrations.ai/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {EMERGENT_LLM_KEY}",
+                    "Content-Type": "application/json"
+                },
+                json={
+                    "model": "openai/gpt-4o",
+                    "messages": [
+                        {"role": "system", "content": DREAM_INTERPRETATION_SYSTEM_PROMPT},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "response_format": {"type": "json_object"}
+                }
+            )
+            response.raise_for_status()
+            result = response.json()
         
         # Parse JSON response
         import json
-        content = response.choices[0].message.content
+        content = result["choices"][0]["message"]["content"]
         interpretation_data = json.loads(content)
         return interpretation_data
         

@@ -16,8 +16,7 @@ bcrypt
 python-jose
 PyJWT
 
-# AI / LLM
-openai
+# AI / LLM (using httpx to call Emergent API directly)
 
 # HTTP
 httpx
