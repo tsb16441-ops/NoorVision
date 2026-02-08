@@ -467,6 +467,11 @@ async def health_check():
 # Include router
 app.include_router(api_router)
 
+# Root route for base URL (without /api/ prefix)
+@app.get("/")
+async def app_root():
+    return {"message": "NoorVision API - Islamic AI Dream Interpretation", "version": "1.0.0", "docs": "/api/"}
+
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
